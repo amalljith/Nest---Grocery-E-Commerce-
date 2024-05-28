@@ -97,7 +97,7 @@
                                                 </ul>
                                                 <ul class="float-start">
                                                     <li class="mb-5">SKU: <a href="#">{{pro.sku}}</a></li>
-                                                    <li class="mb-5">Tags: <a href="#" rel="tag">Snack</a>, <a href="#" rel="tag">Organic</a>, <a href="#" rel="tag">Brown</a></li>
+                                                    <li class="mb-5">Tags:{% for tag in pro.tags.all %}<a href="{% url 'core:tags' tag.slug %}" rel="tag">#{{tag.name}}, {% endfor %}</a></li>
                                                     <li>Stock:<span class="in-stock text-brand ml-5">{{pro.stoke}} Items In Stock</span></li>
                                                 </ul>
                                             </div>

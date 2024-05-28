@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrderItems,ProductReview,Wishlist,Address
-
+from taggit.models import Tag
 
 def home(request):
     products = Product.objects.all()
@@ -64,3 +64,17 @@ def product_details(request,pid):
     }
 
     return render(request,"core/product-details.html",context)
+
+
+def tags(request,tag_slug=None):
+    products = Product.objects.filter(product_status="published").order_by("-id")
+
+    tag = get_object_or_404(Tag, slug =tag_slug)
+    products = products.filter(tags__in = [tag])
+
+    context = {
+        "products":products,
+        "tag":tag
+    }
+
+    return render(request,"core/tag.html",context)

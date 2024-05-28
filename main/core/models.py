@@ -2,6 +2,7 @@ from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from user_auths.models import Users
+from taggit.managers import TaggableManager
 
 
 STATUS_CHOICE = (
@@ -100,6 +101,8 @@ class Product(models.Model):
     stoke = models.CharField(max_length=100,default="10",null=True,blank=True)
     life = models.CharField(max_length=100,default="100 Days",null=True,blank=True)
     mfd = models.DateField(auto_now_add=False,null=True,blank=True)
+
+    tags = TaggableManager(blank=True,)
 
     
     # tags = models.ForeignKey(Tags,on_delete=models.SET_NULL,null=True)
