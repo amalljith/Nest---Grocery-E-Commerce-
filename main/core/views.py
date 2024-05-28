@@ -53,7 +53,7 @@ def vendor_product_list(request,vid):
 def product_details(request,pid):
     
     product = Product.objects.get(pid=pid)
-    products = Product.objects.filter(category=product.category)
+    products = Product.objects.filter(category=product.category).exclude(pid=pid)
 
     p_image = product.p_images.all()
     context = {
