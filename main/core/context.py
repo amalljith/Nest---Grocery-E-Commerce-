@@ -2,7 +2,9 @@ from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrd
 
 def default(request):
     category = Category.objects.all()
+    address = Address.objects.get(user=request.user)
 
     return {
-        "categories":category
+        "categories":category,
+        "address":address,
     }
