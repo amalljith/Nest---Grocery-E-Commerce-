@@ -6,7 +6,7 @@ __pycache__
 db.sqlite3
 media
 __init__.py
-migrations
+
 
 # Backup files # 
 *.bak 
@@ -108,7 +108,13 @@ ENV/
 env.bak/ 
 venv.bak/ 
 venv
+
+#unwanted paths
+
 imgs/
+fontawesome/
+migrations/
+fonts/
 
 
 # mkdocs documentation 
