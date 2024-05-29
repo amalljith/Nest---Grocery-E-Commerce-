@@ -2,7 +2,14 @@ from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrd
 
 def default(request):
     category = Category.objects.all()
-    address = Address.objects.get(user=request.user)
+    try:
+      address = Address.objects.get(user=request.user)
+
+    except:
+       address = None
+    
+
+
 
     return {
         "categories":category,

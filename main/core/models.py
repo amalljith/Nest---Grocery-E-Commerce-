@@ -3,6 +3,7 @@ from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from user_auths.models import Users
 from taggit.managers import TaggableManager
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 STATUS_CHOICE = (
@@ -55,7 +56,9 @@ class Vendor(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to=user_directory_path)
     cover_image = models.ImageField(upload_to=user_directory_path)
-    description = models.TextField(null=True,blank=True,default='iam a vender')
+    # description = models.TextField(null=True,blank=True,default='iam a vender')
+    description = RichTextUploadingField(null=True,blank=True,default='iam a vender')
+
 
     address = models.CharField(max_length=100, default="Calicut,Nadapuram")
     contact = models.CharField(max_length=100, default="+91")
@@ -89,14 +92,20 @@ class Product(models.Model):
 
     title = models.CharField(max_length=100, default="Fresh Pear")
     image = models.ImageField(upload_to=user_directory_path, default="product.jpg")
-    description = models.TextField(null=True,blank=True, default="this is the product")
+    # description = models.TextField(null=True,blank=True, default="this is the product")
+
+    description = RichTextUploadingField(null=True,blank=True, default="this is the product")
+
     price = models.IntegerField(default=1000)
     old_price = models.IntegerField(default=1000)
 
     
 
 
-    specification = models.TextField(null=True,blank=True, default="this is the product")
+    # specification = models.TextField(null=True,blank=True, default="this is the product")
+
+    specification = RichTextUploadingField(null=True,blank=True, default="this is the product")
+
     type = models.CharField(max_length=100,default="organic",null=True,blank=True)
     stoke = models.CharField(max_length=100,default="10",null=True,blank=True)
     life = models.CharField(max_length=100,default="100 Days",null=True,blank=True)
@@ -186,7 +195,7 @@ class CartOrderItems(models.Model):
 
 class ProductReview(models.Model):
     user = models.ForeignKey(Users,on_delete=models.SET_NULL,null=True)
-    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
+    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,related_name="reviews")
     review = models.TextField()
     rating = models.IntegerField(choices=RATING,default=None)
     date = models.DateTimeField(auto_now_add=True)
@@ -194,9 +203,9 @@ class ProductReview(models.Model):
         verbose_name_plural = "Product Reviews"
     
     def __str__(self):
-        return self.title
+        return self.product.title
     
-    def get_rating(self):
+    def get_rating(self):   
         return self.rating
 
 

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #Customadmin
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,12 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #thirdparty
-    "taggit",
 
-    #custom apps
+    #Thirdparty
+    "taggit",
+    'ckeditor',
+    'ckeditor_uploader',
+   
+
+    #Custom apps
     'core',
     'user_auths',
+    
 ]
 
 MIDDLEWARE = [
@@ -149,5 +155,31 @@ JAZZMIN_SETTINGS = {
     
 
 AUTH_USER_MODEL = 'user_auths.Users'
+
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        # 'toolbar': 'full',
+        'skin' : 'moono',
+        'codeSnippet_theme' : 'monokoi',
+        'toolbar' : 'all',
+        'extaPlugins' : ','.join(
+            [
+            'codesnippet',
+            'widget',
+            'dialog',
+         ]
+        ),
+        
+    }
+}
     
-                                
+CKEDITOR_CONFIGS = {
+    'default': {
+        'versionCheck': False
+    }
+}
+                               
