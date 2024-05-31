@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    
     <!-- Quick view -->
     <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -189,7 +190,7 @@
                     </div>
                     <div class="header-right">
                         <div class="search-style-2">
-                            <form action="#">
+                            <form action="{% url 'core:search'%}" method="get">
                                 <select class="select-active">
                                     <option>All Categories</option>
                                     <option>Milks and Dairies</option>
@@ -203,7 +204,8 @@
                                     <option>Noodles & Rice</option>
                                     <option>Ice cream</option>
                                 </select>
-                                <input type="text" placeholder="Search for items..." />
+                                <input type="text" placeholder="Search for items..." name="searched" />
+                                <button type="submit"><i class="fi-rs-search"></i></button>
                             </form>
                         </div>
                         <div class="header-action-right">
@@ -366,7 +368,7 @@
                                 <ul>
                                     <li class="hot-deals"><img src="{% static 'assets/imgs/theme/icons/icon-hot.svg' %}" alt="hot deals" /><a href="shop-grid-right.html">Deals</a></li>
                                     <li>
-                                        <a class="active" href="{% url 'core:home' %}">Home</i></a>
+                                        <a href="{% url 'core:home' %}">Home</i></a>
                                         
                                     </li>
                                     <li>
@@ -599,8 +601,8 @@
             </div>
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="#">
-                        <input type="text" placeholder="Search for items…" />
+                    <form action="{% url 'core:search'%}" method="GET">
+                        <input type="text" placeholder="Search for items…"name="searched" />
                         <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
                 </div>
@@ -970,16 +972,15 @@
             </div>
         </div>
     </footer>
-    {% comment %} <!-- Preloader Start -->
+    <!-- Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
-                <div class="text-center">
-                    <img src="{% static 'assets/imgs/theme/loading.gif' %}" alt="" />
-                </div>
+                <div class="ploader"></div>
             </div>
         </div>
-    </div> {% endcomment %}
+    </div>
+     
     <!-- Vendor JS-->
     <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
     <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>

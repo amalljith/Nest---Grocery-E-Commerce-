@@ -52,7 +52,7 @@
                                                     <div class="product-rate d-inline-block">
                                                         <div class="product-rating" style="width: 90%"></div>
                                                     </div>
-                                                    <span class="font-small ml-5 text-muted"> (32 reviews)</span>
+                                                    <span class="font-small ml-5 text-muted"> ({{review.count}} reviews)</span>
                                                 </div>
                                             </div>
                                             <div class="clearfix product-price-cover">
@@ -270,7 +270,7 @@
                                                                         <div class="desc">
                                                                             <div class="d-flex justify-content-between mb-10">
                                                                                 <div class="d-flex align-items-center">
-                                                                                    <span class="font-xs text-muted">{{r.date|date:"M d, Y"}} </span>
+                                                                                    <span class="font-xs text-muted">{{r.date|date:"d  M, Y"}} </span>
                                                                                 </div>
                                                                     
                                                                                     
@@ -281,11 +281,13 @@
                                                                                         
                                                                                 
                                                                             </div>
+                                                                           
                                                                             <p class="mb-10">{{r.review}}<!--<a href="#" class="reply">Reply</a>--></p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                {% endfor %}
+                                                               
                                                             
                                                             </div>
                                                         </div>
@@ -381,7 +383,7 @@
                                     <div class="col-12">
                                         <div class="row related-products">
                                             {% for p in product %}
-                                            <div class="col-lg-3 col-md-4 col-12 col-sm-6 d-lg-block d-none">
+                                            <div class="col-lg-3 col-md-4 col-12 col-sm-6 ">
                                                 <div class="product-cart-wrap hover-up">
                                                     <div class="product-img-action-wrap">
                                                         <div class="product-img product-img-zoom">

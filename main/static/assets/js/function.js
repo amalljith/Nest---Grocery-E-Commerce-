@@ -1,26 +1,19 @@
 console.log("working fine");
 
-const date1 = new Date('August 19, 1975 23:15:30 GMT+11:00');
-const date2 = new Date('August 19, 1975 23:15:30 GMT-11:00');
-
-// Tuesday
-console.log(date1.getDay());
-// Expected output: 2
-
-// Wednesday
-console.log(date2.getDay());
-// Expected output: 3
 
 const monthName =  ["Jan","Feb","Mar","April","May","June",
                    "July","Aug","Sept","Oct","Nov","Dec",]
+
+                   
+// const dayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat",]
 
 
 
 $("#commentForm").submit(function(e){
     e.preventDefault();
-
+    let day = new Date("October 31, 2021 09:38:00").getDate();
     let dt = new Date();
-    let time = dt.getUTCDay() + " " + monthName[dt.getUTCMonth()] + ", " + dt.getFullYear()
+    let time = dt.getUTCDate() + " " + monthName[dt.getUTCMonth()] + ", " + dt.getFullYear()
 
     $.ajax({
         data: $(this).serialize(),
@@ -70,3 +63,4 @@ $("#commentForm").submit(function(e){
         }
     })
 })
+

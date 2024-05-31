@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrderItems,ProductReview,Wishlist,Address
 from taggit.models import Tag
-from django.db.models import Avg, Count
+from django.db.models import Avg, Q
 from .forms import ProductReviewForm
 
 def home(request):
@@ -133,3 +133,15 @@ def ajax_addreview(request,pid):
     )
 
 
+def search_view(request):
+    if request.method == "GET":
+            products = request.GET['searched']
+
+            products = Product.objects.filter(Q(title__icontains=products) | Q(description__icontains=products))
+
+            context = {
+                
+                "products": products
+            }
+
+            return render(request,"core/search.html",context)

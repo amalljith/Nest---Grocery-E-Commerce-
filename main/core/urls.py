@@ -23,6 +23,7 @@ urlpatterns = [
 
     #add review
 
-    path('add-review/<pid>/',views.ajax_addreview,name='addreview')
+    path('add-review/<pid>/',views.ajax_addreview,name='addreview'),
+    path('search/',views.search_view,name='search')
 
 ]
