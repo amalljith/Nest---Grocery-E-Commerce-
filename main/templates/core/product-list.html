@@ -28,7 +28,7 @@
                                         <ul>
                                             {% for c in categories %}
                                             <li>
-                                            <input class="form-check-input" data-filter="category" filter="checkbox" type="checkbox" name="checkbox" id="exampleCheckbox1" value="{{c.id}}" /> &nbsp; &nbsp; &nbsp;
+                                            <input class="form-check-input filter-checkbox" data-filter="category" type="checkbox" name="checkbox" id="exampleCheckbox1" value="{{c.id}}" /> &nbsp; &nbsp; &nbsp;
 
                                                 <a href="{% url 'core:category_product_list' c.cid %}"> <img src="{{c.image.url}}" alt="" />{{c.title}}</a>
                                             </li>   
@@ -43,7 +43,7 @@
                                     <div class="d-flex">
                                         <div class="customeee-checkbox mr-80">
                                             {% for v in vendors%}
-                                            <input class="form-check-input" data-filter="vendor" filter="checkbox" type="checkbox" name="checkbox" id="exampleCheckbox1" value="{{v.id}}" />
+                                            <input class="form-check-input filter-checkbox" data-filter="vendor"  type="checkbox" name="checkbox" id="exampleCheckbox1" value="{{v.id}}" />
                                             <label class="form-check-label" for="exampleCheckbox1"><span>{{v.title}}</span></label>
                                             <br />
                                             {% endfor %}
@@ -118,9 +118,9 @@
                 </div>
                 <div class="col-12">
                     <div class="shop-product-fillter">
-                        <div class="totall-product">
-                            <p>We found <strong class="text-brand">29</strong> items for you!</p>
-                        </div>
+                        {% comment %} <div class="totall-product">
+                            <p>We found <strong class="text-brand">{{products.count}}</strong> items for you!</p>
+                        </div> {% endcomment %}
                         <div class="sort-by-product-area">
                             <div class="sort-by-cover mr-10">
                                 <div class="sort-by-product-wrap">
@@ -162,7 +162,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row product-grid">
+                    <div class="row product-grid" id="filtered-product">
                         
                         {% for p in products %}
                                   
@@ -246,7 +246,7 @@
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
                                             <a href="shop-product-right.html">
-                                                <img src="assets/imgs/banner/banner-5.png" alt="" />
+                                                <img src="{% static 'assets/imgs/banner/banner-5.png' %}" alt="" />
                                             </a>
                                         </div>
                                     </div>

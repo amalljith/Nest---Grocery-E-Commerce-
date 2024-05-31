@@ -4,6 +4,7 @@ from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrd
 from taggit.models import Tag
 from django.db.models import Avg, Q
 from .forms import ProductReviewForm
+from django.template.loader import render_to_string
 
 def home(request):
     products = Product.objects.all()
@@ -145,3 +146,22 @@ def search_view(request):
             }
 
             return render(request,"core/search.html",context)
+
+
+
+
+def filter_product(request):
+    categories = request.GET.getlist("category[]")
+    vendors = request.GET.getlist("vendor[]")
+
+    products = Product.objects.filter(product_status="published").order_by("-id").distinct()
+
+    if len(categories) > 0:
+        products = products.filter(category__id__in=categories).distinct()
+
+    if len(vendors) > 0:
+        products = products.filter(vendor__id__in=vendors).distinct()
+
+
+    data = render_to_string("core/ajax/product-list.html",{"products":products})
+    return JsonResponse({"data":data})
