@@ -1,6 +1,38 @@
 {% extends "partials/base.html" %}
 {% load static %}
 {% block content %}
+<style>
+    input[type="range"] {
+        -webkit-appearance: none; /* Removes default appearance */
+        margin-right: 15px;
+        height: 7px; /* Height of the slider track */
+        background: rgba(255, 255, 255, 0.6); /* Semi-transparent white background for the track */
+        border-radius: 5px;
+        background-image: linear-gradient(#3bb77e, #3bb77e );
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        
+      }
+      
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Removes default appearance */
+        height: 20px; /* Height of the thumb */
+        width: 20px; /* Width of the thumb */
+        border-radius: 50%; /* Circular thumb */
+        background: #3bb77e; /* Green background for the thumb */
+        cursor: ew-resize; /* East-west resize cursor on hover */
+        box-shadow: 0 0 2px 0 #555; /* Subtle shadow around the thumb */
+        transition: background 3s ease-in-out; /* Smooth transition for background color change */
+      }
+      
+      input[type="range"]::-webkit-slider-runnable-track {
+        -webkit-appearance: none; /* Removes default appearance */
+        box-shadow: none; /* Removes default box shadow */
+        border: none; /* Removes default border */
+        background: transparent; /* Transparent background for the track behind the thumb */
+      }
+      
+</style>
     <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
@@ -51,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                            {% comment %} <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
                                 <div class="card">
                                     <h5 class="mb-30">By Tags</h5>
                                     <div class="sidebar-widget widget-tags">
@@ -80,35 +112,26 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-5 mb-sm-5">
                                 <div class="card">
                                     <h5 class="mb-10">By Price</h5>
                                     <div class="sidebar-widget price_range range">
                                         <div class="price-filter mb-20">
                                             <div class="price-filter-inner">
-                                                <div id="slider-range" class="mb-20"></div>
+                                                {% comment %} <div id="slider-range" class="mb-20"></div> {% endcomment %}
+                                                <input type="range" value="{{ min_max_price.price__min }}" name="ranDge" class="slider-range" id="range" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" oninput="max_price.value=this.value">
                                                 <div class="d-flex justify-content-between">
-                                                    <div class="caption">From: <strong id="slider-range-value1" class="text-brand"></strong></div>
-                                                    <div class="caption">To: <strong id="slider-range-value2" class="text-brand"></strong></div>
+                                                    <div class="caption">From: <strong id="slider-range-value1" class="text-brand">₹{{ min_max_price.price__min }}</strong></div>
+                                                    <div class="caption">To: <strong id="slider-range-value2" class="text-brand">₹{{ min_max_price.price__max }}</strong></div>
                                                 </div>
+                                                <input type="number" value="{{ min_max_price.price__min }}" id="max_price" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" placeholder="Current price" onkeyup="range.value=this.value">
                                             </div>
                                         </div>
                                         <div class="custome-checkbox">
-                                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox211" value="" />
-                                            <label class="form-check-label" for="exampleCheckbox211"><span>$0.00 - $20.00 </span></label>
-                                            <br />
-                                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox22" value="" />
-                                            <label class="form-check-label" for="exampleCheckbox22"><span>$20.00 - $40.00 </span></label>
-                                            <br />
-                                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox23" value="" />
-                                            <label class="form-check-label" for="exampleCheckbox23"><span>$40.00 - $60.00 </span></label>
-                                            <br />
-                                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox24" value="" />
-                                            <label class="form-check-label" for="exampleCheckbox24"><span>$60.00 - $80.00 </span></label>
-                                            <br />
-                                            <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox25" value="" />
-                                            <label class="form-check-label" for="exampleCheckbox25"><span>Over $100.00</span></label>
+                                            <br><br>
+                                           <button class="btn mt-20 w-100" type="button" id="price-filter">Filter</button>
+                                           {% comment %} <h4>{{min_max_price}}</h4> {% endcomment %}
                                         </div>
                                     </div>
                                 </div>
@@ -232,7 +255,7 @@
                             </ul>
                         </nav>
                     </div>
-                    <section class="section-padding pb-5">
+                    {% comment %} <section class="section-padding pb-5">
                         <div class="section-title">
                             <h3 class="">Deals Of The Day</h3>
                             <a class="show-all" href="shop-grid-right.html">
@@ -390,7 +413,7 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> {% endcomment %}
                     <!--End Deals-->
                 </div>
             </div>
