@@ -29,7 +29,11 @@ urlpatterns = [
     path('search/',views.search_view,name='search'),
 
 
-    # filterProduct json view
+    # filter Product URL
     path('filter-products/',views.filter_product,name='filter-product'),
+
+    
+    # Add To Cart URL
+    path('add-to-cart/',views.add_to_cart,name='add-to-cart'),
 
 ]
