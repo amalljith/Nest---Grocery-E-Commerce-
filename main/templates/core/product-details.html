@@ -7,7 +7,7 @@
                 <div class="breadcrumb">
                     <a href="{% url 'core:home'%}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
                     
-                    <span></span> <a href="{% url 'core:category_product_list' pro.category.cid %}">{{pro.category.title}}</a> <span></span> {{pro.title}}
+                    <span></span> <a href="{% url 'core:category_product_list' p.category.cid %}">{{p.category.title}}</a> <span></span> {{p.title}}
                     
                 </div>
             </div>
@@ -25,7 +25,7 @@
                                             <!-- MAIN SLIDES -->
                                             <div class="product-image-slider">
                                                 <figure class="border-radius-10">
-                                                    <img src="{{pro.image.url}}" alt="product image" />
+                                                    <img src="{{p.image.url}}" alt="product image" />
                                                 </figure>
                                                 {% for p in p_image %}
                                                 <figure class="border-radius-10">
@@ -35,9 +35,9 @@
                                             </div>
                                             <!-- THUMBNAILS -->
                                             <div class="slider-nav-thumbnails">
-                                                <div><img src="{{pro.image.url}}" alt="product imagessss" /></div>
-                                                {% for p in p_image %}
-                                                <div><img src="{{p.image.url}}" alt="product imagesss" /></div>
+                                                <div><img src="{{p.image.url}}" alt="product imagessss" /></div>
+                                                {% for pr in p_image %}
+                                                <div><img src="{{pr.image.url}}" alt="product imagesss" /></div>
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -46,7 +46,7 @@
                                     <div class="col-md-6 col-sm-12 col-xs-12">
                                         <div class="detail-info pr-30 pl-30">
                                             <span class="stock-status out-stock"> Sale Off </span>
-                                            <h2 class="title-detail">{{pro.title}}</h2>
+                                            <h2 class="title-detail">{{p.title}}</h2>
                                             <div class="product-detail-rating">
                                                 <div class="product-rate-cover text-end">
                                                     <div class="product-rate d-inline-block">
@@ -57,15 +57,15 @@
                                             </div>
                                             <div class="clearfix product-price-cover">
                                                 <div class="product-price primary-color float-left">
-                                                    <span id="current_price" class="current-price text-brand">₹{{pro.price}}</span>
+                                                    <span class="current-price text-brand">₹</span> <span id="current_price" class="current_price current-price text-brand">{{p.price}}</span>
                                                     <span>
-                                                        <span class="save-price font-md color3 ml-15">{{pro.get_precentage|floatformat:0}}% Off</span>
-                                                        <span class="old-price font-md ml-15">₹{{pro.old_price}}</span>
+                                                        <span class="save-price font-md color3 ml-15">{{p.get_precentage|floatformat:0}}% Off</span>
+                                                        <span class="old-price font-md ml-15">₹{{p.old_price}}</span>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="short-desc mb-30">
-                                                <p class="font-lg">{{pro.description|truncatechars:150|safe}}</p>
+                                                <p class="font-lg">{{p.description|truncatechars:150|safe}}</p>
                                             </div>
                                             {% comment %} <div class="attr-detail attr-size mb-30">
                                                 <strong class="mr-10">Size / Weight: </strong>
@@ -83,26 +83,33 @@
                                                     <span class="qty-val">1</span>
                                                     <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                                 </div> {% endcomment %}
-                                               <input type="number" value="1" id="product-quantity" class="w-25 mb-10">
+                                               <input type="number" value="1" max='1000' min="1" id="product-quantity" class="w-25 mb-10 product-quantity-{{p.id}}">
                                                <br>
                                                 <div class="product-extra-link2">
-                                                    <input type="hidden" value="{{pro.id}}" class="product-id">
-                                                    <input type="hidden" value="{{pro.title}}"class="product-title">
-                                                    <button type="submit" id="add-to-cart-btn" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                                    {% comment %} <input type="hidden" value="{{p.id}}" class="product-id">
+                                                    <input type="hidden" value="{{p.title}}"class="product-title"> {% endcomment %}
+
+                                                <input type="hidden" value="1" id="product-quantity" class="product-quantity-{{p.id}}">
+                                                <input type="hidden" value="{{p.pid}}" class="product-pid-{{p.id}}">
+                                                <input type="hidden" value="{{p.image.url}}" class="product-image-{{p.id}}">
+                                                <input type="hidden" value="{{p.id}}" class="product-id-{{p.id}}">
+                                                <input type="hidden" value="{{p.title}}" class="product-title-{{p.id}}">
+
+                                                    <button type="submit" id="add-to-cart-btn" data-index="{{p.id}}" class="button button-add-to-cart add-to-cart-btn"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
                                                     <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
                                                     <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                             </div>
                                             <div class="font-xs">
                                                 <ul class="mr-50 float-start">
-                                                    <li class="mb-5">Type: <span class="text-brand">{{pro.type}}</span></li>
-                                                    <li class="mb-5">MFG:<span class="text-brand"> {{pro.mfd}}</span></li>
-                                                    <li>LIFE: <span class="text-brand">{{pro.life}}</span></li>
+                                                    <li class="mb-5">Type: <span class="text-brand">{{p.type}}</span></li>
+                                                    <li class="mb-5">MFG:<span class="text-brand"> {{p.mfd}}</span></li>
+                                                    <li>LIFE: <span class="text-brand">{{p.life}}</span></li>
                                                 </ul>
                                                 <ul class="float-start">
-                                                    <li class="mb-5">SKU: <a href="#">{{pro.sku}}</a></li>
-                                                    <li class="mb-5">Tags:{% for tag in pro.tags.all %}<a href="{% url 'core:tags' tag.slug %}" rel="tag">#{{tag.name}}, {% endfor %}</a></li>
-                                                    <li>Stock:<span class="in-stock text-brand ml-5">{{pro.stoke}} Items In Stock</span></li>
+                                                    <li class="mb-5">SKU: <a href="#">{{p.sku}}</a></li>
+                                                    <li class="mb-5">Tags:{% for tag in p.tags.all %}<a href="{% url 'core:tags' tag.slug %}" rel="tag">#{{tag.name}}, {% endfor %}</a></li>
+                                                    <li>Stock:<span class="in-stock text-brand ml-5">{{p.stoke}} Items In Stock</span></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -128,7 +135,7 @@
                                         <div class="tab-content shop_info_tab entry-main-content">
                                             <div class="tab-pane fade show active" id="Description">
                                                 <div class="">
-                                                    <p>{{pro.description|safe}}</p>
+                                                    <p>{{p.description|safe}}</p>
                             
                                                 </div>
                                             </div>
@@ -224,10 +231,10 @@
                                             </div>
                                             <div class="tab-pane fade" id="Vendor-info">
                                                 <div class="vendor-logo d-flex mb-30">
-                                                    <img src="{{pro.vendor.image.url}}" alt="" />
+                                                    <img src="{{p.vendor.image.url}}" alt="" />
                                                     <div class="vendor-name ml-15">
                                                         <h6>
-                                                            <a href="vendor-details-2.html">{{pro.vendor.title}}</a>
+                                                            <a href="vendor-details-2.html">{{p.vendor.title}}</a>
                                                         </h6>
                                                         <div class="product-rate-cover text-end">
                                                             <div class="product-rate d-inline-block">
@@ -238,8 +245,8 @@
                                                     </div>
                                                 </div>
                                                 <ul class="contact-infor mb-50">
-                                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}" alt="" /><strong>Address: </strong> <span>{{pro.vendor.address}}</span></li>
-                                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}" alt="" /><strong>Contact Seller:</strong><span>{{pro.vendor.contact}}</span></li>
+                                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}" alt="" /><strong>Address: </strong> <span>{{p.vendor.address}}</span></li>
+                                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}" alt="" /><strong>Contact Seller:</strong><span>{{p.vendor.contact}}</span></li>
                                                 </ul>
                                                 <div class="d-flex mb-55">
                                                     <div class="mr-30">
@@ -248,14 +255,14 @@
                                                     </div>
                                                     <div class="mr-30">
                                                         <p class="text-brand font-xs">Ship on time</p>
-                                                        <h4 class="mb-0">{{pro.vendor.shipping_on_time}}%</h4>
+                                                        <h4 class="mb-0">{{p.vendor.shipping_on_time}}%</h4>
                                                     </div>
                                                     <div>
                                                         <p class="text-brand font-xs">Chat response</p>
-                                                        <h4 class="mb-0">{{pro.vendor.chat_resp_time}}%</h4>
+                                                        <h4 class="mb-0">{{p.vendor.chat_resp_time}}%</h4>
                                                     </div>
                                                 </div>
-                                                <p>{{pro.vendor.description}}</p>
+                                                <p>{{p.vendor.description}}</p>
                                             </div>
                                             <div class="tab-pane fade" id="Reviews">
                                                 <!--Comments-->
@@ -336,7 +343,7 @@
                                                     {% comment %} <div class="product-rate d-inline-block mb-30"></div> {% endcomment %}
                                                     <div class="row">
                                                         <div class="col-lg-8 col-md-12">
-                                                            <form class="form-contact comment_form hide-comment-form" action="{% url 'core:addreview' pro.id %}" id="commentForm" method="POST">
+                                                            <form class="form-contact comment_form hide-comment-form" action="{% url 'core:addreview' p.id %}" id="commentForm" method="POST">
                                                                 {% csrf_token %}
                                                                 <div class="row">
                                                                     <div class="col-12">
@@ -349,21 +356,7 @@
                                                                             {% comment %} <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea> {% endcomment %}
                                                                         </div>
                                                                     </div>
-                                                                    {% comment %} <div class="col-sm-6">
-                                                                        <div class="form-group">
-                                                                            <input class="form-control" name="name" id="name" type="text" placeholder="Name" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-sm-6">
-                                                                        <div class="form-group">
-                                                                            <input class="form-control" name="email" id="email" type="email" placeholder="Email" />
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <input class="form-control" name="website" id="website" type="text" placeholder="Website" />
-                                                                        </div>
-                                                                    </div> {% endcomment %}
+                                                                    
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <button type="submit" class="button button-contactForm">Submit Review</button>
@@ -449,25 +442,25 @@
                                 <ul>
                                     <li>
                                         <i class="fi fi-rs-shield-check mr-10 text-brand"></i>
-                                        <span> {{pro.vendor.authentic_rating}}% Authentic </span>
+                                        <span> {{p.vendor.authentic_rating}}% Authentic </span>
                                     </li>
                                     <li>
                                         <i class="fi fi-rs-time-forward-ten mr-10 text-brand"></i>
-                                        <span> {{pro.vendor.days_return}} Days Return </span>
+                                        <span> {{p.vendor.days_return}} Days Return </span>
                                     </li>
                                     <li>
                                         <i class="fi fi-rs-diploma mr-10 text-brand"></i>
-                                        <span> {{pro.vendor.warranty_period}} Months Warranty </span>
+                                        <span> {{p.vendor.warranty_period}} Months Warranty </span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="sidebar-widget widget-vendor mb-30 bg-grey-9 box-shadow-none">
                                 <h5 class="section-title style-3 mb-20">Vendor</h5>
                                 <div class="vendor-logo d-flex mb-30">
-                                    <img src="{{pro.vendor.image.url}}" alt="" />
+                                    <img src="{{p.vendor.image.url}}" alt="" />
                                     <div class="vendor-name ml-15">
                                         <h6>
-                                            <a href="vendor-details-2.html">{{pro.vendor.title}}</a>
+                                            <a href="vendor-details-2.html">{{p.vendor.title}}</a>
                                         </h6>
                                         <div class="product-rate-cover text-end">
                                             <div class="product-rate d-inline-block">
@@ -478,8 +471,8 @@
                                     </div>
                                 </div>
                                 <ul class="contact-infor">
-                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}" alt="" /><strong>Address: </strong> <span>{{pro.vendor.address}}</span></li>
-                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}" alt="" /><strong>Contact Seller:</strong><span>{{pro.vendor.contact}}</span></li>
+                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}" alt="" /><strong>Address: </strong> <span>{{p.vendor.address}}</span></li>
+                                    <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}" alt="" /><strong>Contact Seller:</strong><span>{{p.vendor.contact}}</span></li>
                                     <li class="hr"><span></span></li>
                                 </ul>
                                 <div class="d-flex justify-content-between">
@@ -489,11 +482,11 @@
                                     </div>
                                     <div>
                                         <p class="text-brand font-xs">Ship on time</p>
-                                        <h4 class="mb-0">{{pro.vendor.shipping_on_time}}%</h4>
+                                        <h4 class="mb-0">{{p.vendor.shipping_on_time}}%</h4>
                                     </div>
                                     <div>
                                         <p class="text-brand font-xs">Chat response</p>
-                                        <h4 class="mb-0">{{pro.vendor.chat_resp_time}}%</h4>
+                                        <h4 class="mb-0">{{p.vendor.chat_resp_time}}%</h4>
                                     </div>
                                 </div>
                                 <ul>

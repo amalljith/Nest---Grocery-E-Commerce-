@@ -82,7 +82,7 @@ def product_details(request,pid):
 
     context = {
         "make_review":make_review,
-        "pro":product,
+        "p":product,
         "product":products,
         "p_image":p_image,
         "review_form":review_form,
@@ -181,6 +181,8 @@ def add_to_cart(request):
         'title' : request.GET['title'],
         'qty' : request.GET['qty'],
         'price' : request.GET['price'],
+        'image' : request.GET['image'],
+        'pid' : request.GET['pid'],
     }
 
     if 'cart_data_obj' in request.session:
@@ -199,4 +201,14 @@ def add_to_cart(request):
     
     return JsonResponse({"data":request.session['cart_data_obj'],'totalcartitems': len(request.session['cart_data_obj'])})
 
+
+
+def cart_view(request):
+    cart_total_amount = 0
+    if 'cart_data_obj' in request.session:
+        for p_id, item in request.session['cart_data_obj'].items():
+            cart_total_amount += int(item['qty']) * int(item['price'])
+        return render(request,"core/cart.html",({"cart_data":request.session['cart_data_obj'],'totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount}))
+    else:
+        return render(request,"core/cart.html",({"cart_data":'','totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount}))
 
