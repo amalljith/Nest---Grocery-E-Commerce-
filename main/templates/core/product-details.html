@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="clearfix product-price-cover">
                                                 <div class="product-price primary-color float-left">
-                                                    <span class="current-price text-brand">₹</span> <span id="current_price" class="current_price current-price text-brand">{{p.price}}</span>
+                                                    <span class="current-price text-brand">₹</span> <span id="current_price" class="current_price-{{p.id}} text-brand current-price">{{p.price}}</span>
                                                     <span>
                                                         <span class="save-price font-md color3 ml-15">{{p.get_precentage|floatformat:0}}% Off</span>
                                                         <span class="old-price font-md ml-15">₹{{p.old_price}}</span>
@@ -404,7 +404,7 @@
                                                             <span> </span>
                                                         </div>
                                                         <div class="product-price">
-                                                            <span>₹{{p.price}}</span>
+                                                            <span>₹</span> <span>{{p.price}}</span>
                                                             <span class="old-price">₹{{p.old_price}}</span>
                                                         </div>
                                                     </div>

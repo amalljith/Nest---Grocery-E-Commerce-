@@ -176,42 +176,64 @@ $(".add-to-cart-btn").on("click", function(){
 })
 
 
+$(".delete-product").on("click", function(){
+
+    let product_id = $(this).attr("data-product")
+    let this_val = $(this)
+
+    console.log("Product id:",product_id);
+
+    $.ajax({
+        url: "/delete-from-cart",
+        data: {
+            "id" : product_id
+        },
+        dataType : "json",
+        beforeSend : function(){
+            this_val.hide()
+        },
+        success : function(response){
+            this_val.show()
+            $(".cart-item-count").text(response.totalcartitems)
+            $("#cart-list").html(response.data)
+        }
+    })
+    
+
+})
+
+$(".update-product").on("click", function(){
+
+    let product_id = $(this).attr("data-product")
+    let this_val = $(this)
+    let product_qty = $(".product-qty-"+product_id).val()
+
+    console.log("Product id:",product_id);
+    console.log("Product QTY:",product_qty);
+
+    $.ajax({
+        url: "/update-cart",
+        data: {
+            "id" : product_id,
+            "qty" : product_qty,
+        },
+        dataType : "json",
+        beforeSend : function(){
+            this_val.hide()
+        },
+        success : function(response){
+            this_val.show()
+            $(".cart-item-count").text(response.totalcartitems)
+            $("#cart-list").html(response.data)
+        }
+    })
+    
+
+})
 
 
 
-// Add to cart functionality
 
-// $(".add-to-cart-btn").on("click", function(){
-//     let quantity  = $("#product-quantity").val()
-//     let product_title = $(".product-title").val()
-//     let product_id = $(".product-id").val()
-//     let current_price = $("#current_price").text()
-//     let this_val = $(this)
 
-//     console.log("Quantity:",quantity);
-//     console.log("Title:",product_title);
-//     console.log("ID:",product_id);
-//     console.log("Quantity:",quantity);
-//     console.log("Price:",current_price);
-//     console.log("Current element:",this_val);
 
-//     $.ajax({
-//         url: '/add-to-cart',
-//         data: {
-//             'id': product_id,
-//             'qty': quantity,
-//             'title': product_title,
-//             'price': current_price,
-//         },
-//         dataType: 'json',
-//         beforeSend: function(){
-//             console.log("Adding product to cart");
-//         },
-//         success: function(res){
-//             this_val.html("Item added to cart")
-//             console.log("Added product to cart");
-//             $(".cart-items-count").text(res.totalcartitems)
-//         }
-//     })
 
-// })

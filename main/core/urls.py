@@ -40,5 +40,11 @@ urlpatterns = [
     #Cart page URL
     path('cart/',views.cart_view,name='cart'),
 
+    #Delete item from cart
+    path('delete-from-cart/',views.delete_item_from_cart,name='delete-from-cart'),
+
+    #Update cart
+    path('update-cart/',views.update_cart,name='update-from-cart'),
+
 
 ]
