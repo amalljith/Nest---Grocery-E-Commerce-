@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "taggit",
     'ckeditor',
     'ckeditor_uploader',
+
+    # payment intrgration
+    'paypal.standard.ipn',
    
 
     #Custom apps
@@ -152,7 +155,9 @@ JAZZMIN_SETTINGS = {
     "site_logo" : "assets/imgs/theme/loading.gif"    
     
     }
-    
+
+LOGIN_URL = 'userauths:login'
+
 
 AUTH_USER_MODEL = 'user_auths.Users'
 
@@ -162,7 +167,7 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS = {
     'default': {
-        # 'toolbar': 'full',
+        'toolbar': 'full',
         'skin' : 'moono',
         'codeSnippet_theme' : 'monokoi',
         'toolbar' : 'all',
@@ -183,3 +188,5 @@ CKEDITOR_CONFIGS = {
     }
 }
                                
+PAYPAL_RECEIVER_EMAIL = 'sb-hwxda31230039@business.example.com'
+PAYPAL_TEST = True

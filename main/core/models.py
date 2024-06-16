@@ -7,7 +7,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 
 STATUS_CHOICE = (
-    ("process", "Processing"),
+    ("processing", "Processing"),
     ("shipped", "Shipped"),
     ("delivered", "Delivered"),
 )
@@ -176,15 +176,20 @@ class CartOrderItems(models.Model):
     product_status = models.CharField(max_length=200)
     item = models.CharField(max_length=200)
     image = models.CharField(max_length=200)
-    quantity = models.IntegerField(default=0)
+    qty = models.IntegerField(default=0)
     price = models.IntegerField(default=100)
     total = models.IntegerField(default=100)
 
     class Meta:
         verbose_name_plural = "Cart Order Items"
+    
+    # def __str__(self):
+    #     return self.product.title
 
     def order_img(self):
         return mark_safe('<img src="/media/%s" width="50", height="50" />' % (self.image))
+        # return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
 
 
 ######################## Product Review, Wishlists, Address ###################################
