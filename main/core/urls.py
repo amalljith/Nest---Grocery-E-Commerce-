@@ -65,5 +65,13 @@ urlpatterns = [
     path('payment-failed/',views.payment_failed_view,name='payment-failed'),
 
 
+    #Dashboard URL
+    path('dashboard/',views.dashboard,name='dashboard'),
+
+
+    #Dashboard URL
+    path('dashboard/order/<int:id>',views.order_details,name='order-details'),
+
+
 
 ]
