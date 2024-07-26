@@ -11,6 +11,7 @@
                 </div>
             </div>
         </div>
+        {% if cart_data %}
         <div class="container mb-80 mt-50">
             <div class="row">
                 <div class="col-lg-8 mb-40">
@@ -41,6 +42,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                
+                               
+                                    
+                               
+                                    
                                 {% for product_id, item in cart_data.items%}
                                 <tr class="pt-30">
                                     <td class="custome-checkbox pl-30">
@@ -69,6 +75,7 @@
                                     <td class="action text-center" data-title="Remove"><button style="border: none; background: none;" class="text-body delete-product" data-product="{{product_id}}"><i class="fi-rs-trash"></i></button></td>
                                 </tr>
                                 {% endfor %}
+                                
                                
                             </tbody>
                         </table>
@@ -406,5 +413,15 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <div class="text-center">
+            <h1>no items in your cart add some </h1>
+        </div>
+           
+           <br>
+           <br>
+           <br>
+           <br>
+        {% endif %}
     </main>
    {% endblock content%}

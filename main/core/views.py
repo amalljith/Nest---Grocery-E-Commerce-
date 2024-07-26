@@ -1,10 +1,11 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrderItems,ProductReview,Wishlist,Address
 from taggit.models import Tag
 from django.db.models import Avg, Q
 from .forms import ProductReviewForm
 from django.template.loader import render_to_string
+from django.contrib import messages
 
 
 from django.urls import reverse
@@ -212,14 +213,29 @@ def add_to_cart(request):
 
 
 def cart_view(request):
-    cart_total_amount = 0
-    if 'cart_data_obj' in request.session:
-        for p_id, item in request.session['cart_data_obj'].items():
-            cart_total_amount += int(item['qty']) * int(item['price'])
-        return render(request,"core/cart.html",({"cart_data":request.session['cart_data_obj'],'totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount}))
-    else:
-        return render(request,"core/cart.html",{"cart_data":'','totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount})
-    
+    try:
+        cart_total_amount = 0
+        if len(request.session['cart_data_obj'])<=0:
+            messages.info(request,"cart is emty.")
+            return render(request,"core/index.html")
+        if 'cart_data_obj' in request.session:
+            for p_id, item in request.session['cart_data_obj'].items():
+                cart_total_amount += int(item['qty']) * int(item['price'])
+            return render(request,"core/cart.html",({"cart_data":request.session['cart_data_obj'],'totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount}))
+        
+
+        
+        
+        
+        else:
+            return render(request,"core/cart.html",{"cart_data":'','totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount})
+    except:
+        messages.info(request,"cart is emty.")
+        products = Product.objects.all()
+
+        context ={"products":products}
+        return render(request,"core/index.html",context)
+        
 
 
 def delete_item_from_cart(request):
@@ -310,7 +326,9 @@ def checkout(request):
     #     for p_id, item in request.session['cart_data_obj'].items():
     #         cart_total_amount += int(item['qty']) * int(item['price'])
 
-    return render(request,"core/checkout.html",({"cart_data":request.session['cart_data_obj'],'totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount,'paypal_payment_button':paypal_payment_button}))
+    active_address = Address.objects.get(user=request.user,status=True)
+
+    return render(request,"core/checkout.html",({"cart_data":request.session['cart_data_obj'],'totalcartitems': len(request.session['cart_data_obj']),'cart_total_amount':cart_total_amount,'paypal_payment_button':paypal_payment_button,"active_address":active_address}))
 
 @login_required
 def payment_complete_view(request):
@@ -329,10 +347,24 @@ def payment_failed_view(request):
 @login_required
 def dashboard(request):
     orders = CartOrder.objects.filter(user=request.user).order_by("-id")
+    address = Address.objects.filter(user=request.user)
+
+    if request.method == "POST":
+        address = request.POST["address"]
+        mobile = request.POST["mobile"]
+
+        new_address = Address.objects.create(
+            user=request.user,
+            address=address,
+            mobile=mobile,
+        )
+        messages.success(request,"Address added Successfully.")
+        return redirect("core:dashboard")
    
 
     context = {
         'orders':orders,
+        "address": address,
         
     }
     return render(request,'core/accounts.html',context)
@@ -346,3 +378,10 @@ def order_details(request,id):
         "order_items": order_items,
     }
     return render(request,'core/order-details.html',context)
+
+
+def make_address_default(requesst):
+    id = requesst.GET['id']
+    Address.objects.update(status=False)
+    Address.objects.filter(id=id).update(status=True)
+    return JsonResponse({"boolean":True})
