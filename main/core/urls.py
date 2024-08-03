@@ -77,6 +77,15 @@ urlpatterns = [
 
     path('make-default-address/',views.make_address_default,name='make-default-address'),
 
+    #wishlist
+
+    path('wishlist/',views.wishlist_view,name='wishlist'),
+
+    #Adding to wishlist
+    path('add-to-wishlist/',views.add_to_wishlist,name='add-to-wishlist'),
+
+    #Removing from wishlist
+    path('remove-from-wishlist/',views.remove_wishlist,name='remove-from-wishlist'),
 
 
 ]

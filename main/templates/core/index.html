@@ -122,8 +122,11 @@
                                                         <input type="hidden" value="{{p.id}}" class="product-id-{{p.id}}">
                                                         <input type="hidden" value="{{p.title}}" class="product-title-{{p.id}}">
 
-
+                                                        <div class="d-flex">
                                                         <button class="add add-to-cart-btn" id="add-to-cart-btn" data-index="{{p.id}}" style="border: none;"><i class="fi-rs-shopping-cart mr-5"></i>Add </button>
+                                                        <button style="border:none; background:none" class="add-to-wishlist" data-product-item={{p.id}}><i class="fi-rs-heart" style="fill: aqua;"></i></button>
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>

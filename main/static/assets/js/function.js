@@ -166,10 +166,10 @@ $(".add-to-cart-btn").on("click", function(){
         beforeSend: function(){
             console.log("Adding product to cart");
         },
-        success: function(res){
+        success: function(response){
             this_val.html("✔️")
             console.log("Added product to cart");
-            $(".cart-items-count").text(res.totalcartitems)
+            $(".cart-items-count").text(response.totalcartitems)
         }
     })
 
@@ -261,7 +261,55 @@ $(document).on("click",".make-default-address", function(){
 })
 
 
+//Adding to wishlist
 
+$(document).on("click", ".add-to-wishlist", function(){
+    let product_id = $(this).attr("data-product-item")
+    let this_val = $(this)
+
+    console.log("product id is:",product_id);
+
+    $.ajax({
+        url: "/add-to-wishlist",
+        data: {
+            "id":product_id
+        },
+        dataType: "json",
+        beforeSend: function(){
+            console.log("Adding to wishlist...");
+        },
+        success: function(response){
+            this_val.html("✔️")
+            if (response.bool === true) {
+                console.log("Added to wishlist");
+            }
+            
+        }
+    })
+})
+
+//remove from wishlist
+
+$(document).on("click", ".delete-wishlist-product", function(){
+    let wishlist_id = $(this).attr("data-wishlist-product")
+    let this_val = $(this)
+
+    console.log("wishlist id is:", wishlist_id);
+
+    $.ajax({
+        url:"/remove-from-wishlist",
+        data:{
+            "id":wishlist_id
+        },
+        dataType: "json",
+        beforeSend: function(){
+            console.log("deleting product from wishlist");
+        },
+        success: function(response){
+            $("#wishlist-list").html(response.data)
+        }
+    })
+})
 
 
 
