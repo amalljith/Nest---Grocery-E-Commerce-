@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrderItems,ProductReview,Wishlist,Address
 from taggit.models import Tag
-from django.db.models import Avg, Q
+from django.db.models import Avg, Q, Count
 from .forms import ProductReviewForm
 from django.template.loader import render_to_string
 from django.contrib import messages
@@ -14,6 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.forms import PayPalPaymentsForm
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+
+import calendar
+from django.db.models.functions import ExtractMonth
 
 def home(request):
     products = Product.objects.all()
@@ -340,8 +343,16 @@ def payment_failed_view(request):
 
 @login_required
 def dashboard(request):
-    orders = CartOrder.objects.filter(user=request.user).order_by("-id")
+    order_list = CartOrder.objects.filter(user=request.user).order_by("-id")
     address = Address.objects.filter(user=request.user)
+
+    orders = CartOrder.objects.annotate(month=ExtractMonth("order_date")).values("month").annotate(count=Count("id")).values("month", "count")
+    month = []
+    total_order = []
+
+    for i in orders:
+        month.append(calendar.month_name[i["month"]])
+        total_order.append(i['count'])
 
     if request.method == "POST":
         address = request.POST["address"]
@@ -357,8 +368,11 @@ def dashboard(request):
    
 
     context = {
-        'orders':orders,
+        'order_list':order_list,
         "address": address,
+        "orders":orders,
+        "month":month,
+        "total_order":total_order
         
     }
     return render(request,'core/accounts.html',context)
@@ -383,10 +397,14 @@ def make_address_default(requesst):
 @login_required
 def wishlist_view(request):
     try:
-        wishlist = Wishlist.objects.all()
+        if request.user.is_authenticated:
+          wishlist = Wishlist.objects.all()
+        else:
+            messages.warning(request,"You need to login before accessing your wishlist.")
+    
     
     except:
-        wishlist = None
+        wishlist = 0
     
     context = {"wish":wishlist}
 

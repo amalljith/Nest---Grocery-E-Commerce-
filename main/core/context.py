@@ -10,11 +10,12 @@ def default(request):
 
     min_max_price = Product.objects.aggregate(Min("price"),Max("price"))
 
-   #  try:
-   #     wishlist = Wishlist.objects.filter(user=request.user)
+    try:
+       wishlist = Wishlist.objects.filter(user=request.user)
 
-   #  except:
-   #     messages.warning(request,"You need to login before accessing your wishlist.")
+    except:
+       wishlist = 0
+      #  messages.warning(request,"You need to login before accessing your wishlist.")
 
 
 
@@ -29,7 +30,7 @@ def default(request):
 
     return {
         "categories":category,
-      #   "wishlist":wishlist,
+        "wishlist":wishlist,
         "address":address,
         "vendors":vendor,
         "min_max_price":min_max_price,
