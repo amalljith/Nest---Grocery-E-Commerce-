@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrderItems,ProductReview,Wishlist,Address
+from user_auths.models import ContactUs
 from taggit.models import Tag
 from django.db.models import Avg, Q, Count
 from .forms import ProductReviewForm
@@ -455,3 +456,40 @@ def remove_wishlist(request):
     wishlist_json = serializers.serialize('json',wishlist)
     data = render_to_string("core/ajax/wishlist-list.html",context)
     return JsonResponse({"data":data,"wish":wishlist_json})
+
+
+#Other Pages
+def contact(request):
+    return render(request,"core/contact.html")
+
+def ajax_contact_form(request):
+    full_name = request.GET["full_name"]
+    email = request.GET["email"]
+    phone = request.GET["phone"]
+    subject = request.GET["subject"]
+    message = request.GET["message"]
+
+    contact = ContactUs.objects.create(
+        full_name = full_name,
+        email = email,
+        phone = phone,
+        subject = subject,
+        message = message
+    )
+    context = {
+        "bool": True,
+        "message" : "Message send successfully"
+    }
+    return JsonResponse({"data":context})
+
+def about_us(request):
+    return render(request,"core/about_us.html")
+
+def purchase_quide(request):
+    return render(request,"core/purchase_quide.html")
+
+def privacy_policy(request):
+    return render(request,"core/privacy_policy.html")
+
+def terms_of_service(request):
+    return render(request,"core/terms_of_service.html")

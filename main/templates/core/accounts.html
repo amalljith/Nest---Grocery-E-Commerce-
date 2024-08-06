@@ -232,6 +232,31 @@
         </div>
     </main>
 
-   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+    
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: {{month|safe}},
+            datasets: [{
+                label: 'Orders',
+                backgroundColor:'rgb(59, 183, 126)',
+                borderColor:'rgb(59, 183, 126)',
+                data: {{total_order|safe}},
+                borderWidth: 1
+            }]
+            },
+            options: {
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+        </script> 
 {% endblock content %}
    

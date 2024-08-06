@@ -87,5 +87,10 @@ urlpatterns = [
     #Removing from wishlist
     path('remove-from-wishlist/',views.remove_wishlist,name='remove-from-wishlist'),
 
+    #Contact
+    path('contact/',views.contact,name='contact'),
+
+    path('ajax-contact-form/',views.ajax_contact_form,name='contact_form'),
+
 
 ]
