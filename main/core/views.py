@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
 from .models import Category,Tags,Vendor,Product,ProductImages,CartOrder,CartOrderItems,ProductReview,Wishlist,Address
-from user_auths.models import ContactUs
+from user_auths.models import ContactUs, Profile
 from taggit.models import Tag
 from django.db.models import Avg, Q, Count
 from .forms import ProductReviewForm
@@ -304,19 +304,22 @@ def checkout(request):
                 total = int(item['qty']) * int(item['price'])
             )
 
-
-    host = request.get_host()
-    paypal_dict = {
-        'business':settings.PAYPAL_RECEIVER_EMAIL,
-        'amount':cart_total_amount,
-        'item_name':'Order-Item-No-' + str(order.id),
-        'invoice':'INVOICE_NO-' + str(order.id),
-        'currency_code':'USD',
-        'notify_url':'http://{}{}'.format(host, reverse('core:paypal-ipn')),
-        'return_url':'http://{}{}'.format(host, reverse('core:payment-completed')),
-        'cancel_url':'http://{}{}'.format(host, reverse('core:payment-failed')),
-    }
-
+    try:
+        host = request.get_host()
+        paypal_dict = {
+            'business':settings.PAYPAL_RECEIVER_EMAIL,
+            'amount':cart_total_amount,
+            'item_name':'Order-Item-No-' + str(order.id),
+            'invoice':'INVOICE_NO-' + str(order.id),
+            'currency_code':'USD',
+            'notify_url':'http://{}{}'.format(host, reverse('core:paypal-ipn')),
+            'return_url':'http://{}{}'.format(host, reverse('core:payment-completed')),
+            'cancel_url':'http://{}{}'.format(host, reverse('core:payment-failed')),
+        }
+    except:
+        messages.warning(request,"add product to cart")
+        return redirect("core:home")
+        
     paypal_payment_button = PayPalPaymentsForm(initial=paypal_dict)
 
     # cart_total_amount = 0
@@ -347,6 +350,8 @@ def dashboard(request):
     order_list = CartOrder.objects.filter(user=request.user).order_by("-id")
     address = Address.objects.filter(user=request.user)
 
+    profile = Profile.objects.get(user=request.user)
+
     orders = CartOrder.objects.annotate(month=ExtractMonth("order_date")).values("month").annotate(count=Count("id")).values("month", "count")
     month = []
     total_order = []
@@ -369,6 +374,7 @@ def dashboard(request):
    
 
     context = {
+        "profile": profile,
         'order_list':order_list,
         "address": address,
         "orders":orders,
